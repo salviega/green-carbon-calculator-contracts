@@ -1,6 +1,6 @@
-# Agrosecurity - contracts
+# Green Carbon Calculator - contracts
 
-Agrosecurity: weather based insurence
+Green Carbon Calculator: decentralized calculator
 
 ## Quick start 🏄
 
@@ -9,7 +9,7 @@ Prerequisites: [Node (v16 LTS)](https://nodejs.org/en/download/) and [Git](https
 > Clone the repository:
 
 ```
-git clone https://github.com/salviega/Agrosecurity-contracts.git
+git clone https://github.com/salviega/green-carbon-calculator-contracts.git
 ```
 
 > Install dependencies:
@@ -25,8 +25,6 @@ yarn chain
 ```
 
 ## Authors 🏗
-
-[rookiecol](https://github.com/RookieCol)
 
 [salviega](https://github.com/salviega)
 
