@@ -3,7 +3,7 @@ import { DeployFunction } from 'hardhat-deploy/types'
 import { developmentChains, networkConfig } from '../helper-hardhat-config'
 import verify from '../helper-functions'
 
-const deployDataConsumerV3: DeployFunction = async function (
+const deployGreenCarbonCalculator: DeployFunction = async function (
 	hre: HardhatRuntimeEnvironment
 ) {
 	// @ts-ignore
@@ -12,22 +12,30 @@ const deployDataConsumerV3: DeployFunction = async function (
 	const { deployer } = await getNamedAccounts()
 
 	log('----------------------------------------------------')
-	log('Deploying DataConsumerV3 contract and waiting for confirmations...')
+	log(
+		'Deploying GreenCarbonCalculator contract and waiting for confirmations...'
+	)
 
-	const DataFeedsContract = await deploy('DataConsumerV3', {
+	const args: any[] = [
+		'0x0b8f280df5ca109e702ea27266adb0705bfacf01',
+		'0xb297f730e741a822a426c737ecd0f7877a9a2c22',
+		'Green Carbon Calculator',
+		'GCC'
+	]
+
+	const GreenCarbonCalculatorContract = await deploy('GreenCarbonCalculator', {
 		from: deployer,
-		args: [],
+		args: args,
 		log: true,
 		waitConfirmations: networkConfig[network.name].blockConfirmations || 1
 	})
-
 	if (
 		!developmentChains.includes(network.name) &&
-		process.env.POLYGONSCAN_API_KEY
+		(process.env.CELOSCAN_API_KEY || process.env.POLYGONSCAN_API_KEY)
 	) {
-		await verify(DataFeedsContract.address, [])
+		await verify(GreenCarbonCalculatorContract.address, args)
 	}
 }
 
-export default deployDataConsumerV3
-deployDataConsumerV3.tags = ['all', 'DataConsumerV3']
+export default deployGreenCarbonCalculator
+deployGreenCarbonCalculator.tags = ['all', 'GreenCarbonCalculator']
