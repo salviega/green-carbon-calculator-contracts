@@ -3,7 +3,7 @@ import { DeployFunction } from 'hardhat-deploy/types'
 import { developmentChains, networkConfig } from '../helper-hardhat-config'
 import verify from '../helper-functions'
 
-const deployGreenCarbonCalculator: DeployFunction = async function (
+const deployFootprint: DeployFunction = async function (
 	hre: HardhatRuntimeEnvironment
 ) {
 	// @ts-ignore
@@ -12,9 +12,7 @@ const deployGreenCarbonCalculator: DeployFunction = async function (
 	const { deployer } = await getNamedAccounts()
 
 	log('----------------------------------------------------')
-	log(
-		'Deploying GreenCarbonCalculator contract and waiting for confirmations...'
-	)
+	log('Deploying Footprint contract and waiting for confirmations...')
 
 	const args: any[] = [
 		'0x0b8f280df5ca109e702ea27266adb0705bfacf01',
@@ -23,7 +21,7 @@ const deployGreenCarbonCalculator: DeployFunction = async function (
 		'GCC'
 	]
 
-	const GreenCarbonCalculatorContract = await deploy('GreenCarbonCalculator', {
+	const FootprintContract = await deploy('Footprint', {
 		from: deployer,
 		args: args,
 		log: true,
@@ -33,9 +31,9 @@ const deployGreenCarbonCalculator: DeployFunction = async function (
 		!developmentChains.includes(network.name) &&
 		(process.env.CELOSCAN_API_KEY || process.env.POLYGONSCAN_API_KEY)
 	) {
-		await verify(GreenCarbonCalculatorContract.address, args)
+		await verify(FootprintContract.address, args)
 	}
 }
 
-export default deployGreenCarbonCalculator
-deployGreenCarbonCalculator.tags = ['all', 'GreenCarbonCalculator']
+export default deployFootprint
+deployFootprint.tags = ['all', 'Footprint']

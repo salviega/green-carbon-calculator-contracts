@@ -12,7 +12,7 @@ interface ITCO2Token {
 	function retire(uint256 amount) external;
 }
 
-contract GreenCarbonCalculator is ERC721BStaticTokenURI {
+contract Footprint is ERC721BStaticTokenURI {
 	/**
 	 * Network: Mumbai
 	 * name: TCO2Faucet
@@ -40,6 +40,8 @@ contract GreenCarbonCalculator is ERC721BStaticTokenURI {
 	ITCO2Token TCO2TokenExtense;
 
 	mapping(address => uint256) public balances;
+	mapping(address => uint256) public crowfunding;
+	mapping(address => uint256) public charity;
 
 	constructor(
 		address _TCO2Faucet,
@@ -90,7 +92,22 @@ contract GreenCarbonCalculator is ERC721BStaticTokenURI {
 			balances[msg.sender] >= gasCost,
 			'Insufficient balance to cover gas cost'
 		);
+
+		crowfunding[msg.sender] += gasCost;
 		balances[msg.sender] -= gasCost;
+	}
+
+	function donate(uint256 _tokenId) public payable {
+		uint256 crowfundingFunds = crowfunding[ownerOf(_tokenId)];
+		uint256 charityFunds = charity[ownerOf(_tokenId)];
+
+		require(crowfundingFunds > charityFunds, 'The donations are not open');
+
+		uint256 funding = crowfundingFunds - charityFunds;
+		require(msg.value <= funding, 'The collection is complete');
+
+		charity[ownerOf(_tokenId)] += msg.value;
+		balances[msg.sender] += msg.value;
 	}
 
 	function supportsInterface(
