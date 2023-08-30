@@ -31,7 +31,7 @@ contract Footprint is ERC721BStaticTokenURI {
 
 	using Counters for Counters.Counter;
 
-	Counters.Counter private _tokenIdCounter;
+	Counters.Counter public _tokenIdCounter;
 
 	string public name;
 	string public symbol;
@@ -42,6 +42,8 @@ contract Footprint is ERC721BStaticTokenURI {
 	mapping(address => uint256) public balances;
 	mapping(address => uint256) public crowfunding;
 	mapping(address => uint256) public charity;
+
+	event Minted(address indexed _to, uint256 indexed _tokenId, string _uri);
 
 	constructor(
 		address _TCO2Faucet,
@@ -95,6 +97,8 @@ contract Footprint is ERC721BStaticTokenURI {
 
 		crowfunding[msg.sender] += gasCost;
 		balances[msg.sender] -= gasCost;
+
+		emit Minted(msg.sender, tokenId, _uri);
 	}
 
 	function donate(uint256 _tokenId) public payable {
