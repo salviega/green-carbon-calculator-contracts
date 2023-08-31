@@ -15,10 +15,10 @@ const deployFootprint: DeployFunction = async function (
 	log('Deploying Footprint contract and waiting for confirmations...')
 
 	const args: any[] = [
-		'0x0b8f280df5ca109e702ea27266adb0705bfacf01',
-		'0xb297f730e741a822a426c737ecd0f7877a9a2c22',
-		'Green Carbon Calculator',
-		'GCC'
+		'0x996b39698CF96A70B7a7005B5d1924a66C5E8f0e', // TCO2Faucet
+		'0xa5831eb637dff307395b5183c86B04c69C518681', // TCO2Token
+		'Footprint',
+		'FTP'
 	]
 
 	const FootprintContract = await deploy('Footprint', {
